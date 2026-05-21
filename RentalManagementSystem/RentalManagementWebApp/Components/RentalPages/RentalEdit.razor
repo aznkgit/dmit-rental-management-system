@@ -1,0 +1,242 @@
+﻿@page "/RentalPages/RentalEdit/{rentalID:int}"
+@using System.ComponentModel.DataAnnotations
+
+<h1>Rental Edit</h1>
+
+
+<div>
+    <button class="btn btn-primary" @onclick="SaveRental">Save</button>
+    <button class="btn btn-danger" @onclick="Cancel">
+        @if (isChanged)
+        {
+            <span>Cancel</span>
+        }
+        else
+        {
+            <span>Close</span>
+        }
+    </button>
+</div>
+
+
+@* <SimpleDialog IsVisible="@showDialog"
+     Message="@dialogMessage"
+     OnClose="@(async (result) => await SimpleDialogResult(result))">
+</SimpleDialog> *@
+@if (IsVisible)
+{
+    <div class="dialog-background">
+        <div class="dialog-window">
+            <p>@Message</p>
+            <br />
+            <button class="btn btn-primary" @onclick="() => CloseDialog(true)">Ok</button>
+            <button class="btn btn-secondary" @onclick="() => CloseDialog(false)">Cancel</button>
+        </div>
+    </div>
+}
+
+<!-- Display Errors -->
+@if (ErrorList.Any())
+{
+    <div class="alert alert-danger mt-2">
+        <p>Unable to save the customer</p>
+        <ul>
+            @foreach (var error in ErrorList)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+
+<!-- Address Section -->
+<div class="container mt-5">
+    <h4>Address</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="unit">Unit:</label>
+            <input type="text" id="unit" class="form-control" @bind="Address.Unit" />
+        </div>
+        <div class="col-md-6">
+            <label for="street">Street:</label>
+            <input type="text" id="street" class="form-control" @bind="Address.Street" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="community">Community:</label>
+            <input type="text" id="community" class="form-control" @bind="Address.Community" />
+        </div>
+        <div class="col-md-6">
+            <label for="city">City:</label>
+            <input type="text" id="city" class="form-control" @bind="Address.City" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="landlord">LandLord:</label>
+            <input type="text" id="landlord" class="form-control" @bind="Address.LandLord" />
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Rental Details Section -->
+<div class="container mt-5">
+    <h4>Rental Details</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="rentalType">Rental Type:</label>
+            <select id="rentalType"
+                class="form-control @(ErrorList.Any(e => e.Contains("No rental type")) ? "is-invalid" : "")"
+                @bind="RentalDetails.RentalTypeID">
+                <option value="">-- Select Rental Type --</option>
+                @foreach (var rentalType in RentalTypes)
+                {
+                    <option value="@rentalType.RentalTypeID">@rentalType.Description</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="monthlyRent">Monthly Rent:</label>
+            <input type="number" id="monthlyRent"
+                   class="form-control @(ErrorList.Any(e => e.Contains("Monthly rent")) ? "is-invalid" : "")"
+                   @bind="RentalDetails.MonthlyRent" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="damageDeposit">Damage Deposit:</label>
+            <input type="number" id="damageDeposit"
+                   class="form-control @(ErrorList.Any(e => e.Contains("Damage deposit")) ? "is-invalid" : "")"
+                   @bind="RentalDetails.DamageDeposit" />
+        </div>
+        <div class="col-md-6">
+            <label for="maxVacancy">Max Vacancy:</label>
+            <input type="number" id="maxVacancy" 
+                   class="form-control @(ErrorList.Any(e => e.Contains("Max vacancy")) ? "is-invalid" : "")"
+                   @bind="RentalDetails.MaxVacancy" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="vacancies">vacancies</label>
+            <input type="number" id="vacancies"
+                   class="form-control @(ErrorList.Any(e => e.Contains("Vacancies can't'")) ? "is-invalid" : "")"
+                   @bind="RentalDetails.Vacancies" />
+        </div>
+        <div class="col-md-6">
+            <label for="availableDate">Available Date:</label>
+            <input type="date" id="availableDate"
+                   class="form-control @(ErrorList.Any(e => e.Contains("Available date")) ? "is-invalid" : "")"
+                @bind="RentalDetails.AvailableDate" />
+        </div>
+    </div>
+</div>
+
+
+<!-- Renter Details Section -->
+<div class="container mt-5">
+    <h4>Renter Details</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>RenterID</th>
+                <th>StudentNumber</th>
+                <th>StudentName</th>
+                <th>Emergency Contact Name</th>
+                <th>Emergency Contact Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (RentalDetails != null && RentalDetails.Renters.Any())
+            {
+                @foreach (var renter in RentalDetails.Renters)
+                {
+                    <tr>
+                        <td><button class="btn btn-sm btn-danger" @onclick="() => RemoveRenter(renter)">Remove</button></td>
+                        <td>@renter.RenterID</td>
+                        <td>@renter.StudentNumber</td>
+                        <td>@renter.StudentName</td>
+                        <td>@renter.EmergencyContactName</td>
+                        <td>@renter.EmergencyContactNumber</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">No renters added yet.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Student Search Section -->
+<div class="container mt-5">
+    <h4>Student Search</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" class="form-control" @bind="LastNameSearch"/>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary mt-4" @onclick="SearchStudent">Search</button>
+        </div>
+    </div>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th></th>
+                <th>StudentNumber</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (SearchResults.Any())
+            {
+                @foreach (var student in SearchResults)
+                {
+                    <tr>
+                        <td><button class="btn btn-sm btn-success" @onclick="() => AddRenter(student)">Add</button></td>
+                        <td>@student.StudentNumber</td>
+                        <td>@student.FirstName</td>
+                        <td>@student.LastName</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4">No students found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .dialog-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dialog-window {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+</style>

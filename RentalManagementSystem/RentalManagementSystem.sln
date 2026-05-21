@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalManagementWebApp", "RentalManagementWebApp\RentalManagementWebApp.csproj", "{7CAD47BA-2393-463B-A003-434F0A09DCB5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalManagementSystem", "RentalManagementSystem\RentalManagementSystem.csproj", "{BAAAFA39-105B-4FF4-A7C2-380993A02ED5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CAD47BA-2393-463B-A003-434F0A09DCB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CAD47BA-2393-463B-A003-434F0A09DCB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CAD47BA-2393-463B-A003-434F0A09DCB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CAD47BA-2393-463B-A003-434F0A09DCB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAAAFA39-105B-4FF4-A7C2-380993A02ED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAAAFA39-105B-4FF4-A7C2-380993A02ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAAAFA39-105B-4FF4-A7C2-380993A02ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAAAFA39-105B-4FF4-A7C2-380993A02ED5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26F8B077-F342-48BB-BBC5-35F6CD130D11}
+	EndGlobalSection
+EndGlobal

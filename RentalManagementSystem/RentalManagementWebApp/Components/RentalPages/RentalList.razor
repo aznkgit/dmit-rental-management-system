@@ -1,0 +1,80 @@
+﻿@page "/RentaPages/RentalList"
+
+<h1>Rental List</h1>
+
+<div class="mt-2 pt-2 pb-2 p-md-2" style="background-color: burlywood;">
+    <!-- Input fields -->
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" @bind="City" />
+    <label for="community">Community:</label>
+    <input type="text" id="community" name="community" @bind="Community" />
+
+    <!-- Button Options -->
+    <button class="btn btn-primary" @onclick="SearchRentals" disabled="@isLoading">Search</button>
+    <button class="btn btn-secondary" @onclick="CreateNewRental">New Rental</button>
+</div>
+
+@if (isLoading)
+{
+    <div class="spinner-border">
+    </div>
+}
+
+<!-- List area -->
+<div>
+    @if (Rentals == null)
+    {
+        <p>No rentals to display. Perform a search to see results.</p>
+    }
+    else if (Rentals.Count == 0)
+    {
+        <p>No rentals match the search criteria.</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>RentalID</th>
+                    <th>City</th>
+                    <th>Community</th>
+                    <th>Rental Type</th>
+                    <th>Max Vacancy</th>
+                    <th>Available Vacancy</th>
+                    <th>Monthly Rent</th>
+                    <th>Damage Deposit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rental in Rentals)
+                {
+                    <tr>
+                        <td><button class="btn btn-info" @onclick="() => EditRental(rental.RentalID)">Edit</button></td>
+                        <td>@rental.RentalID</td>
+                        <td>@rental.City</td>
+                        <td>@rental.Community</td>
+                        <td>@rental.RentalType</td>
+                        <td>@rental.MaxVacancy</td>
+                        <td>@rental.AvailableVacancy</td>
+                        <td>@string.Format("{0:C}", rental.MonthlyRent)</td>
+                        <td>@string.Format("{0:C}", rental.DamageDeposit)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<!-- Display Errors -->
+@if (ErrorList.Any())
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ErrorList)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
