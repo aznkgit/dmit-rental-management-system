@@ -1,16 +1,3 @@
-﻿// ***********************************************************************
-// Assembly         : 
-// Author           : James Thompson
-// Created          : 10-22-2024
-//
-// Last Modified By : James Thompson
-// Last Modified On : 10-22-2024
-// ***********************************************************************
-// <copyright file="RentalAgreementView.cs" company="NAIT">
-//     Copyright (c) NAIT. All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
 using System;
 using System.Collections.Generic;
 using System.Linq;
